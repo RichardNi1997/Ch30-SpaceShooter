@@ -5,9 +5,12 @@ using UnityEngine;
 public class BoundsCheck : MonoBehaviour
 {
 	public float radius = 1f;
+	public bool keepOnScreen = true;
 
+	public bool isOnScreen = true;
 	public float camWidth;
 	public float camHeight;
+	public bool offRight, offLeft, offUp, offDown;
 
 	void Awake(){
 		camHeight = Camera.main.orthographicSize;
@@ -16,22 +19,32 @@ public class BoundsCheck : MonoBehaviour
 
 	void LateUpdate(){
 		Vector3 pos = transform.position;
+		isOnScreen = true;
+		offRight = offLeft = offUp = offDown = false;
 
 		if(pos.x > camWidth - radius){
 			pos.x = camWidth - radius;
+			offRight = true;
 		}
 		if(pos.x < -camWidth + radius){
 			pos.x = -camWidth + radius;
+			offLeft = true;
 		}
 
 		if(pos.y > camHeight - radius){
 			pos.y = camHeight - radius;
+			offUp = true;
 		}
 
 		if (pos.y < -camHeight + radius){
 			pos.y = -camHeight + radius;
+			offDown = true;
 		}
-		transform.position = pos;
+		if(keepOnScreen && !isOnScreen){
+			transform.position = pos;
+			offRight = offLeft = offUp = offDown = false;
+		}
+		
 	}
    
    void OnDrawGizmos(){
