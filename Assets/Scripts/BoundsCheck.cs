@@ -40,6 +40,7 @@ public class BoundsCheck : MonoBehaviour
 			pos.y = -camHeight + radius;
 			offDown = true;
 		}
+		isOnScreen = !(offRight || offLeft || offUp || offDown);
 		if(keepOnScreen && !isOnScreen){
 			transform.position = pos;
 			offRight = offLeft = offUp = offDown = false;
